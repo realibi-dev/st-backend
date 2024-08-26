@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Branch {
+  id            Int       @id @default(autoincrement())
+  name          String
+  address       String
+  contactPerson String
+  contactPhone  String
+  isActive      Boolean   @default(false)
+  isVerified    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  deletedAt     DateTime?
+}
+
+model CafeOwnerUser {
+  id          Int    @id @default(autoincrement())
+  companyName String
+  userId      Int
+}
+
+model Cart {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+}
+
+model CartItem {
+  id        Int       @id @default(autoincrement())
+  cartId    Int
+  productId Int
+  quantity  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  orderNumber   String
+  totalPrice    Float
+  deliveryPrice Float
+  isCompleted   Boolean   @default(false)
+  userId        Int
+  branchId      Int
+  isPaid        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime
+  deletedAt     DateTime?
+}
+
+model OrderItem {
+  id        Int       @id @default(autoincrement())
+  productId Int
+  orderId   Int
+  price     Float
+  status    String
+  quantity  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  compound    String
+  temperature String
+  isActive    Boolean   @default(true)
+  price       Float
+  image       String?
+  isNew       Boolean   @default(true)
+  categoryId  Int
+  providerId  Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  deletedAt   DateTime?
+}
+
+model ProviderProfile {
+  id        Int       @id @default(autoincrement())
+  name      String
+  image     String?
+  isActive  Boolean   @default(false)
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+}
+
+model RegularUser {
+  id     Int @id @default(autoincrement())
+  userId Int
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  username    String
+  password    String
+  isSuperuser Boolean   @default(false)
+  accountType String
+  fullname    String
+  isActive    Boolean   @default(false)
+  phone       String
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  deletedAt   DateTime?
+}
+
+model UserBranch {
+  id       Int @id @default(autoincrement())
+  userId   Int
+  branchId Int
+}
