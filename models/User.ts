@@ -1,24 +1,17 @@
-// model User {
-//   id          Int       @id @default(autoincrement())
-//   username    String
-//   password    String
-//   isSuperuser Boolean   @default(false)
-//   accountType String
-//   fullname    String
-//   isActive    Boolean   @default(false)
-//   phone       String
-//   image       String?
-//   createdAt   DateTime  @default(now())
-//   updatedAt   DateTime
-//   deletedAt   DateTime?
-// }
+// import { hashSync  } from 'bcrypt-ts';
+
+enum AccountTypes {
+    REGULAR_USER = 'REGULAR_USER',
+    CAFE_OWNER_USER = 'CAFE_OWNER_USER',
+    PROVIDER_USER = 'PROVIDER_USER'
+}
 
 interface IUser {
     id?: number;
     username: string;
     password: string;
     isSuperuser: boolean;
-    accountType: string;
+    accountType: AccountTypes;
     fullname: string;
     isActive: boolean;
     phone: string;
@@ -33,7 +26,7 @@ class User {
     public username: string;
     public password: string;
     public isSuperuser: boolean;
-    public accountType: string;
+    public accountType: AccountTypes;
     public fullname: string;
     public isActive: boolean;
     public phone: string;
@@ -43,18 +36,19 @@ class User {
     public deletedAt?: string | Date;
 
     constructor(params: IUser) {
-    this.id = params.id;
-    this.username = params.username;
-    this.password = params.password;
-    this.isSuperuser = params.isSuperuser;
-    this.accountType = params.accountType;
-    this.fullname = params.fullname;
-    this.isActive = params.isActive;
-    this.phone = params.phone;
-    this.image = params.image;
-    this.createdAt = params.createdAt ? new Date(params.createdAt) : new Date();
-    this.updatedAt = params.updatedAt ? new Date(params.updatedAt) : new Date();
-    this.deletedAt = params.deletedAt ? new Date(params.deletedAt) : undefined;
+        this.id = params.id;
+        this.username = params.username;
+        // this.password = hashSync(params.password, 8);
+        this.password = params.password;
+        this.isSuperuser = params.isSuperuser;
+        this.accountType = params.accountType;
+        this.fullname = params.fullname;
+        this.isActive = params.isActive;
+        this.phone = params.phone;
+        this.image = params.image;
+        this.createdAt = params.createdAt ? new Date(params.createdAt) : new Date();
+        this.updatedAt = params.updatedAt ? new Date(params.updatedAt) : new Date();
+        this.deletedAt = params.deletedAt ? new Date(params.deletedAt) : undefined;
     }
 }
 

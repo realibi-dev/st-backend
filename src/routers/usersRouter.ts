@@ -16,12 +16,13 @@ router.get('/', (req: Request, res: Response): void => {
 
 router.post('/', (req: Request, res: Response): void => {
     const newUser = new User(req.body);
-    prisma.user.create({
-        data: newUser,
-    })
-    .then((): void => {
-        console.log("user created", newUser);
-    })
+    // prisma.user.create({
+    //     data: newUser,
+    // })
+    // .then((): void => {
+    //     console.log("user created", newUser);
+    // })
+    console.log(newUser);
     
     res.status(204).send('ok');
 })
