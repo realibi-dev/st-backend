@@ -1,4 +1,4 @@
-// import { hashSync  } from 'bcrypt-ts';
+import bcrypt from 'bcryptjs';
 
 enum AccountTypes {
     REGULAR_USER = 'REGULAR_USER',
@@ -38,8 +38,8 @@ class User {
     constructor(params: IUser) {
         this.id = params.id;
         this.username = params.username;
-        // this.password = hashSync(params.password, 8);
-        this.password = params.password;
+        this.password = bcrypt.hashSync(params.password, 10);
+        // this.password = params.password;
         this.isSuperuser = params.isSuperuser;
         this.accountType = params.accountType;
         this.fullname = params.fullname;

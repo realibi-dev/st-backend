@@ -14,17 +14,30 @@ router.get('/', (req: Request, res: Response): void => {
     })
 });
 
-router.post('/', (req: Request, res: Response): void => {
+router.post('/registration', async (req: Request, res: Response): Promise<void> => {
     const newUser = new User(req.body);
-    // prisma.user.create({
-    //     data: newUser,
-    // })
-    // .then((): void => {
-    //     console.log("user created", newUser);
-    // })
-    console.log(newUser);
-    
-    res.status(204).send('ok');
+
+    try {
+        const existingUser = await prisma.user.findFirst({
+            where: {
+                username: newUser.username,
+            },
+        });
+
+        if (existingUser) {
+            res.status(400).json({ message: "Username already exists" });
+        }
+
+        await prisma.user.create({
+            data: newUser,
+        })
+
+        console.log("user created", newUser);
+        res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 })
 
 export default router;
